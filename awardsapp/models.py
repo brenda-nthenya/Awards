@@ -32,3 +32,14 @@ class Profile(models.Model):
     def delete_profile(self):
         self.delete()
 
+class Projects(models.Model):
+    name=models.CharField(max_length=50)
+    description=models.TextField()
+    project_image=models.ImageField(upload_to='project_images')
+    urls=models.URLField()
+    pub_date=models.DateTimeField(auto_now_add=True)
+    profile=models.ForeignKey(Profile,on_delete=models.CASCADE)
+    voters = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
