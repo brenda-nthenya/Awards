@@ -70,4 +70,32 @@ class Projects(models.Model):
 
     @classmethod
     def user_projects(cls,profile):
-        return cls.objects.filter(profile=profile)  
+        return cls.objects.filter(profile=profile)
+
+class Ratings(models.Model):
+    rating = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+        (7, '7'),
+        (8, '8'),
+        (9, '9'),
+        (10, '10'),
+    )
+
+    design = models.IntegerField(choices=rating,blank=False)
+    usability = models.IntegerField(choices=rating,blank=False)
+    content = models.IntegerField(choices=rating,blank=False)
+    rater = models.ForeignKey(Profile,on_delete=models.CASCADE)
+    projects=models.ForeignKey(Projects,on_delete=models.CASCADE, related_name='ratings')
+    pub_date=models.DateTimeField(auto_now_add=True)
+    design_average=models.FloatField(default=0)
+    usability_average=models.FloatField(default=0)
+    content_average=models.FloatField(default=0)
+    average_rating=models.FloatField(default=0)
+
+    def __str__(self):
+        return self.projects
