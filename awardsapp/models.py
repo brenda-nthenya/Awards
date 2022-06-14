@@ -43,3 +43,15 @@ class Projects(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering=['-pub_date']
+
+    def save_project(self):
+        self.save()
+  
+    def delete_project(self):
+        self.delete()
+
+    def voters_num(self):
+        return self.voters.count()
