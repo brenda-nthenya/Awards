@@ -105,3 +105,11 @@ class Ratings(models.Model):
   
     def delete_rating(self):
         self.delete()
+
+    @classmethod
+    def project_votes(cls,project):
+        return cls.objects.filter(projects=project)
+
+    @classmethod
+    def project_voters(cls,rater):
+        return cls.objects.filter(rater=rater)
