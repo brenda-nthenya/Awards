@@ -28,3 +28,11 @@ class ProjectsSerializer(serializers.ModelSerializer):
                 'project_image',
                 'urls',
                 'pub_date')
+
+class UserSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer(read_only=True)
+    posts = ProjectsSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'url', 'username', 'profile', 'posts']
