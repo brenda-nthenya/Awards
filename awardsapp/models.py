@@ -55,3 +55,19 @@ class Projects(models.Model):
 
     def voters_num(self):
         return self.voters.count()
+
+    @classmethod
+    def get_all_projects(cls):
+        return cls.objects.all()
+
+    @classmethod
+    def get_project(cls,id):
+        return Projects.objects.get(id=id)
+
+    @classmethod
+    def search_project(cls,name):
+        return cls.objects.filter(name__icontains=name)
+
+    @classmethod
+    def user_projects(cls,profile):
+        return cls.objects.filter(profile=profile)  
