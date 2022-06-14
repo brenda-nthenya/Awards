@@ -31,3 +31,4 @@ class Profile(models.Model):
     
     def delete_profile(self):
         self.delete()
+
