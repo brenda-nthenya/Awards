@@ -99,3 +99,9 @@ class Ratings(models.Model):
 
     def __str__(self):
         return self.projects
+
+    def save_rating(self):
+        self.save()
+  
+    def delete_rating(self):
+        self.delete()
