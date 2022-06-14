@@ -98,7 +98,7 @@ class Ratings(models.Model):
     average_rating=models.FloatField(default=0)
 
     def __str__(self):
-        return self.projects
+        return self.project
 
     def save_rating(self):
         self.save()
@@ -113,3 +113,6 @@ class Ratings(models.Model):
     @classmethod
     def project_voters(cls,rater):
         return cls.objects.filter(rater=rater)
+
+    class Meta:
+        ordering=['pub_date']
