@@ -13,6 +13,7 @@ class Profile(models.Model):
     location=models.CharField(max_length=50)
     email=models.EmailField()
     url=models.URLField()
+    name = models.CharField(blank=True, max_length=120)
 
     def __str__(self):
         return self.user.username
