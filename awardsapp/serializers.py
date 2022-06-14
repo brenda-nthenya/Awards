@@ -18,3 +18,13 @@ class ProfileSerializer(serializers.ModelSerializer):
                   'email',
                   'url',
                   'location')
+
+class ProjectsSerializer(serializers.ModelSerializer):
+      class Meta:
+        model = Projects
+        fields=('id',
+                'name',
+                'description',
+                'project_image',
+                'urls',
+                'pub_date')
