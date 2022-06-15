@@ -130,21 +130,49 @@ def edit_profile(request, username):
 
 @login_required(login_url='login')
 def rate_project(request, project_id):
-  if request.method == "POST":
-    form = RatingForm(request.POST)
-    project = Projects.objects.get(pk=project_id)
-    current_user = request.user
+    if request.method == "POST":
+        form = RatingForm(request.POST)
+        project = Projects.objects.get(pk=project_id)
+        current_user = request.user
+        try:
+            user = User.objects.get(pk=current_user.id)
+            profile = Profile.objects.get(user=user)
+        except Profile.DoesNotExist:
+            raise Http404()
+        if form.is_valid():
+            ratings = form.save(commit=False)
+            ratings.rater = profile
+            ratings.projects = project
+            ratings.save()
+        return HttpResponseRedirect(reverse('project', args=[int(project.id)]))
+    else:
+        form = RatingForm()
+    return render(request, 'project.html', {"form": form})
+
+
+@login_required
+def profile(request,profile_id):
     try:
-        user = User.objects.get(pk=current_user.id)
-        profile = Profile.objects.get(user=user)
+        user=User.objects.get(pk=profile_id)
+        profile=Profile.objects.get(user=user)
+        profile_projects=Projects.user_projects(profile)
+        projects_stats=profile_projects.count()
+        project_ratings = Ratings.objects.filter(projects=profile_projects.first())
+        if len(project_ratings) >= 1:
+            votes=[i.average_rating for i in project_ratings]
+            total_ratings=sum(votes)
+            average=total_ratings/len(profile_projects)
+
+        context = {
+            "profile":profile,
+            "profile_projects":profile_projects,
+            "projects_stats":projects_stats,
+            "ratings":total_ratings,
+            "average":average
+        }
+        return render(request,'profile.html', context)
+    
     except Profile.DoesNotExist:
         raise Http404()
-    if form.is_valid():
-      ratings = form.save(commit=False)
-      ratings.rater = profile
-      ratings.projects = project
-      ratings.save()
-      return HttpResponseRedirect(reverse('project', args=[int(project.id)]))
-  else:
-      form = RatingForm()
-  return render(request, 'project/project.html', {"form": form})
+        
+    # return render(request,'profile/profile.html',{"profile":profile,"profile_projects":profile_projects,"projects_stats":projects_stats})
