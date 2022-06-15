@@ -48,3 +48,16 @@ def signup(request):
     else:
         form = SignupForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+#class-based developed api end-points
+class ProfileList(APIView):
+    def get(self,request,format=None):
+        profiles=Profile.objects.all()
+        serializers=ProfileSerializer(profiles,many=True)
+        return Response(serializers.data)
+
+class ProjectsList(APIView):
+    def get(self,request,format=None):
+        projects=Projects.objects.all()
+        serializers=ProjectsSerializer(projects,many=True)
+        return Response(serializers.data)
