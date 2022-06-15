@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from rest_framework import serializers
+
+from .email import send_welcome_email
 from .forms import *
 import datetime as dt
 from django.urls import reverse
@@ -191,3 +193,11 @@ def search_project(request):
     else:
         message = "You haven't searched for any project category"
     return render(request, 'results.html', {'message': message})
+
+
+def email(request):
+    user = request.user
+    email = user.email
+    name = user.username
+    send_welcome_email(name, email)
+    return redirect(index)
