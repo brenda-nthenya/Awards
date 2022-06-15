@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from rest_framework import serializers
 from .forms import *
 import datetime as dt
+from django.urls import reverse
 from django.http.response import Http404, HttpResponse
 from django.contrib.auth import login, authenticate
 from rest_framework.response import Response
@@ -126,3 +127,24 @@ def edit_profile(request, username):
         'prof_form': prof_form
     }
     return render(request, 'edit.html', params)
+
+@login_required(login_url='login')
+def rate_project(request, project_id):
+  if request.method == "POST":
+    form = RatingForm(request.POST)
+    project = Projects.objects.get(pk=project_id)
+    current_user = request.user
+    try:
+        user = User.objects.get(pk=current_user.id)
+        profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        raise Http404()
+    if form.is_valid():
+      ratings = form.save(commit=False)
+      ratings.rater = profile
+      ratings.projects = project
+      ratings.save()
+      return HttpResponseRedirect(reverse('project', args=[int(project.id)]))
+  else:
+      form = RatingForm()
+  return render(request, 'project/project.html', {"form": form})
