@@ -176,3 +176,18 @@ def profile(request,profile_id):
         raise Http404()
         
     # return render(request,'profile/profile.html',{"profile":profile,"profile_projects":profile_projects,"projects_stats":projects_stats})
+
+def search_project(request):
+    if request.method == 'GET':
+        name = request.GET.get("name")
+        results = Projects.objects.filter(name__icontains=name).all()
+        print(results)
+        message = f'name'
+        params = {
+            'results': results,
+            'message': message
+        }
+        return render(request, 'results.html', params)
+    else:
+        message = "You haven't searched for any project category"
+    return render(request, 'results.html', {'message': message})
