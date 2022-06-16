@@ -17,7 +17,6 @@ from .serializers import ProfileSerializer,ProjectsSerializer
 # Create your views here.
 
 def index(request):
-    date=dt.date.today()
     try:
         projects=Projects.get_all_projects()
     except Projects.DoesNotExist:
@@ -31,7 +30,6 @@ def index(request):
         ratings=Ratings.project_votes(best_rating.id)
 
     context = {
-        "date":date,
         "highest_vote":best_votes,
         "projects":projects,
         "highest_rating":best_rating
@@ -201,3 +199,21 @@ def email(request):
     name = user.username
     send_welcome_email(name, email)
     return redirect(index)
+
+@login_required
+def add_project(request):
+  if request.method == "POST":
+    form = AddProjectForm(request.POST,request.FILES)
+    user=request.user
+    try:
+      profile=Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+      raise Http404()
+    if form.is_valid():
+      new_project=form.save(commit=False)
+      new_project.profile = profile
+      new_project.save()
+    return redirect('index')
+  else:
+    form=AddProjectForm()
+  return render(request,'add_project.html',{"form":form})
