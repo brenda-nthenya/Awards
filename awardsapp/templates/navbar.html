@@ -1,0 +1,33 @@
+{% load crispy_forms_tags %}
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar" id="nbar">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}"> <strong class="mr-4 brand">Be Awarded</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <form class="form-inline" method="get" action="{% url 'search_project' %}">
+                        {% csrf_token %}
+                        <div class="md-form my-0">
+                            <input class="form-control mr-sm-2 " type="text" placeholder="Search" name="title" aria-label="Search">
+                        </div>
+                    </form>
+                </li>
+            </ul>
+
+            <ul style="list-style: none;">
+                {% if user.is_authenticated %}
+                <li><a href="{%url 'profile' request.user.id %}" style="color: black;"><strong><i class="fa fa-user-circle"
+                        aria-hidden="true" style="color: black; margin-right: 1em;"></i>My Profile</strong></a></li>
+                {%endif%}
+                <li><a href="/add_project" style="color: black;"><strong><i class="fa fa-upload" aria-hidden="true"
+                        style="color: black; margin-right: 1em;"></i>Submit Project </strong></a></li>
+                <li><a href="/login" style="color: black;"><strong><i class="bi bi-box-arrow-right"
+                        style="color: black; margin-right: 1em;"></i>Login</strong></a></li>
+              </ul>
+        </div>
+    </div>
+</nav>
