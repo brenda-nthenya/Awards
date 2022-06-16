@@ -1,0 +1,81 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block content%}
+<div class="container" style="margin-top: 3em;">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="profile-image text-center">
+        <h2 class="text-center" style="text-transform: capitalize;"><strong>{{profile.user.username}}'s Profile</strong></h2>
+        <img src="{{profile.profile_pic.url}}" class="rounded-circle" alt="profile_image" style="height: 4em;width: 4em;">
+        <div class="profile_name">
+          <a href="{{profile.url}}" target="_blank" style="text-transform: capitalize; color: black;"> {{profile.user.username}}</p></a>
+        </div>
+        <div class="profile_location">
+          <p class="text-muted"><i class="bi bi-geo-alt"></i> {{profile.location}}</p>
+        </div>
+        <div class="profile_bio">
+          <p>{{profile.bio}}</p>
+        </div>
+        <div class="profile_image">
+          <p><i class="bi bi-envelope"></i> {{profile.email}}</p>
+        </div>
+        {% if profile.user == request.user and request.user.is_authenticated %}
+        <div class="update"><a href="{%url 'update_profile' profile.user.id %}">
+          <button type="button" class="btn btn-secondary">Update Profile</button></a>
+        </div>
+        {%endif%}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+      <div class="count">
+        {%if projects_stats == 1 %}
+        <div class="projects text-center"><strong>{{projects_stats}} Project</strong></div>
+        {%else%}
+        <div class="projects text-center"><strong>{{projects_stats}} Projects</strong></div>
+        {%endif%}
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12" id="projects">
+        {%for project in profile_projects%}
+        <div class="col-md-4">
+          <div class="card shadow p-3 mb-5 bg-white rounded card quote-card">
+            <div class="card__image border-tlr-radius">
+              <a href="{% url 'project' project.id %}"><img src="{{project.project_image.url}}" alt="image" style="width: 100%;"
+                  class="border-tlr-radius"></a>
+            </div>
+            <div class="cardbody">
+              <div class="card__meta">
+                {%if project.average_rating != 0.0 %}
+                <a href="#">{{project.average_rating | floatformat:0}}</a>
+                {%else%}
+                {% endif %}
+                <time>{{project.pub_date}}</time>
+              </div>
+              <article class="card__article">
+                <h3><a href="{% url 'project' project.id %}" style="color: black;text-decoration: none;">{{project.name}}</a></h3>
+                <p>{{project.description|truncatechars:100}}</p>
+              </article>
+              <div class="card__action">
+                <div class="card__author">
+                  <img src="{{project.profile.profile_pic.url}}" class="rounded-circle" alt="user" style="height: 2em;width: 2em;">
+                  <div class="card__author-content">
+                    By <a href="{%url 'profile' project.profile.user.id %}" style="text-decoration: none;color: black; text-transform: capitalize;">{{project.profile.user.username}}</a>
+                    <a id="share" class="share-icon" href="{{project.urls}}" target="_blank" style="float: right;color: black;"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endfor%}
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}
