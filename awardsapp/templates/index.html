@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% load static %}
+{% block styles %}
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{%static 'css/index.css'%}">
+{% endblock %}
+
+{% block content %}
+    {% if highest_rating %}
+        <div class="jumbotron"
+        style="color: whitesmoke;background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7)), url('{{highest_rating.project_image.url}}');height: 25em;margin-top: 5em;">
+            <div class="of-the-day-wrapper-top">
+                <label><strong>Site of the day <span>{{date}}</span></strong>
+                </label>
+            </div>
+            <div class="highest_details text-center">
+                <a href="{%url 'project' highest_rating.id%}" id="highest_name" style="text-decoration: none;"><strong>{{highest_rating.name}}<i class="fa fa-chevron-circle-right" aria-hidden="true"></i> </strong></a>
+                <div class="developer mt-5"><strong> BY <a href="{% url 'profile' highest_rating.profile.user.id %}"
+                    style="text-transform: capitalize; color: #00bdaa;">{{highest_rating.profile.user.username}}</a> FROM
+                    {{highest_rating.profile.location}}</strong></div>
+            </div>
+            <div class="voters_details">
+                <div class="voters">
+                    <a href="{% url 'profile' highest_rating.profile.user.id %}"><img
+                        src="{{highest_url.profile.profile_image.url}}"></a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="text-center divider">
+        <h2><strong>All Projects</strong></h2><br>
+        <span><strong> Rate your favorite sites</strong></span>
+        <strong>
+          <hr>
+        </strong>
+    </div>
+    {% if projects %}
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+        {% for project in projects %}
+        <div class="col-md-4">
+            <div class="card shadow p-3 mb-5 bg-white rounded card quote-card" id="project-card">
+                <div class="card__image border-tlr-radius">
+                    <a href="{% url 'project' project.id %}"><img src="{{project.project_image.url}}" alt="image"
+                        style="width: 100%;" class="border-tlr-radius"></a>
+                </div>
+                <div class="cardbody">
+                    <div class="card__meta">
+                    {%if project.average_rating != 0.0 %}
+                        <a href="#">{{project.average_rating | floatformat:0}}</a>
+                    {%else%}
+                    {% endif %}
+                    <time>{{project.pub_date}}</time>
+                    </div>
+                    <article class="card__article">
+                    <h3><a href="{% url 'project' project.id %}"
+                        style="text-transform: capitalize;color: black;text-decoration: none;"><strong>{{project.name}}</strong></a></h3>
+                    <p>{{project.description|truncatechars:100}}</p>
+                    </article>
+                    <div class="card__action">
+                        <div class="card__author text-center">
+                            <img src="{{project.profile.profile_pic.url}}" class="rounded-circle" alt="user">
+                            <div class="card__author-content">
+                            By <a href="{%url 'profile' project.profile.user.id %}"
+                                style="color: #00bdaa;text-transform: capitalize; color: black;text-decoration: none;">{{project.profile.user.username}}</a>
+                                <a id="share" class="share-icon" href="{{project.urls}}" target="_blank" style="float: right;color: black;"><i
+                                    class="fa fa-share-alt" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+    {% endif %}
+{% endblock %}
