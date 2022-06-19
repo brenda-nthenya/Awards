@@ -1,0 +1,205 @@
+body{
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+}
+
+#nav{
+     z-index: 2;
+    transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    
+}
+
+.shrink {
+  height: 50px;
+}
+
+#average{
+    width: 6rem;
+    height: 6rem;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 4px solid goldenrod;
+    border-radius: 50%;
+    margin: 2rem;
+}
+
+.design{
+    width: 6rem;
+    height: 6rem;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 4px solid maroon;
+    border-radius: 50%;
+    margin: 2rem;
+}
+
+.usability{
+    width: 6rem;
+    height: 6rem;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 4px solid blue;
+    border-radius: 50%;
+    margin: 2rem;
+}
+
+.content{
+    width: 6rem;
+    height: 6rem;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 4px solid green;
+    border-radius: 50%;
+    margin: 2rem;
+}
+
+.d-flex{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.d-flex span{
+    font-size: 1.4rem;
+    padding-top: 2.5rem;
+}
+
+#highest_name{
+    margin-left: auto;
+    margin-right: auto;
+    color: whitesmoke;
+    font-size: 3em;
+}
+
+#Votes{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    padding: 0 20%;
+}
+.vote-details, .vote-titles{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    padding-bottom: 0;
+}
+
+.vote-title{
+    font-size:1.4rem ;
+    margin-right: -4rem;
+}
+.voter-name{
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+.voter-name, .content-vote, .design-vote, .usability-vote{
+    align-self: center;
+}
+.content-vote, .design-vote, .usability-vote{
+    font-size: 2rem;
+}
+
+.profile-image{
+    padding-top: 5em;
+    padding-bottom: 5em;
+}
+
+#projects{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.rounded-circle{
+    margin: 0.5em;
+}
+
+#vote {
+    background-color: #00bdaa;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    padding: 2%;
+    font-weight: 900;
+    color: #fff;
+}
+
+#voting {
+    background-color: #00bdaa;
+    
+    text-transform: uppercase;
+  
+    font-weight: 900;
+    color: #fff;
+}
+
+#raters{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.btn-grad {background-image: linear-gradient(to right, #00bdaa 0%, #26a0da  51%,#fff 10%, #00bdaa  100%)}
+.btn-grad {
+margin: 10px;
+padding: 5px 15px;
+text-align: center;
+text-transform: uppercase;
+transition: 0.5s;
+background-size: 200% auto;
+color: white;            
+box-shadow: 0 0 20px #eee;
+border-radius: 10px;
+display: block;
+border: hidden;
+}
+
+.btn-grad:hover {
+background-position: right center; /* change the direction of the change here */
+color: #fff;
+text-decoration: none;
+}
+
+#project-card:hover{
+    box-shadow: 0 40px 60px -20px #00bdaa;
+    z-index: 100;
+    opacity: 0.9;
+    transition: 0.9s;
+}
+
+.rounded-circle:hover{
+    box-shadow: 0 40px 60px -20px #00bdaa;
+    z-index: 100;
+    opacity: 0.9;
+    transition: 0.9s;
+}
+
+.nav-link:hover{
+    /* box-shadow: 0 40px 60px -20px #00bdaa; */
+    z-index: 100;
+    opacity: 0.9;
+    transition: 0.9s;
+}
+
+.search-title{
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+@media (max-width: 425px) {
+    #proj-search{
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
