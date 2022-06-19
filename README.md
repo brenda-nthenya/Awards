@@ -6,7 +6,7 @@ Brenda Nthenya
 
 ## DESCRIPTION
 This is an application that enables the user to preview posts and repo of various individuals.
-The live site is here(https://beeawards.herokuapp.com/)
+The live site is [here](https://beeawards.herokuapp.com/)
 
 ## SETUP & INSTALLATION 
 TO access this project on your local files, you can clone it using these steps:
