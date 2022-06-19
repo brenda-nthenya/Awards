@@ -8,7 +8,7 @@ from PIL import Image
 
 class Profile(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE, related_name='profile')
-    profile_pic=models.ImageField(upload_to='profile_pics')
+    # profile_pic=models.ImageField(upload_to='profile_pics', blank=True, null=True)
     bio=models.TextField()
     location=models.CharField(max_length=50)
     email=models.EmailField()
