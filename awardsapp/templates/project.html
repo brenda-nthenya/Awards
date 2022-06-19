@@ -1,5 +1,5 @@
 {%extends 'base.html'%}
-{%load bootstrap5%}
+{% load crispy_forms_tags %}
 {%load static%}
 {%block content%}
 <div class="container-fluid" style="margin-top: 5em;">
@@ -18,7 +18,7 @@
   <div class="row mb-5">
     <div class="col-md-12">
       <div class="highest_details text-center">
-        <a href="{{project.urls}}" id="highest_name" style="text-decoration: none;color: black;" target="_blank"><strong>{{project.name}}<i
+        <a href="{{project.urls}}" id="highest_name" style="text-decoration: none;color: #33f;" target="_blank"><strong>{{project.name}}<i
               class="fa fa-chevron-circle-right" aria-hidden="true"></i> </strong></a>
         <div class="developer mt-3"><strong> BY <a href="{% url 'profile' project.profile.user.id %}"
               style="text-transform: capitalize; color: #00bdaa;">{{project.profile.user.username}}</a> FROM
@@ -61,7 +61,7 @@
       <h5><strong>You have already rated the project</strong></h5>
       {% else %}
       <a href="#" data-toggle="modal" data-target="#Modal" style="text-decoration: none;color: whitesmoke;">
-        <h2>Rate This Project</h2>
+        <h2>Rate the project</h2>
       </a>
       <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -77,7 +77,7 @@
               {% if user.is_authenticated %}
               <form action="{%url 'rate_project' project_id=project.id%}" method="post">
                 {% csrf_token %}
-                {% bootstrap_form form %}
+                {{rating_form|crispy}}
                 <button type="submit" class="btn btn-sm" style="color: #00bdaa;">Rate</button>
               </form>
               {% endif %}
@@ -99,15 +99,6 @@
         <p class="vote-title ">Design</p>
         <p class="vote-title "> Usability</p>
       </div>
-      {% for vote in ratings%}
-      <img src="{{vote.rater.profile_pic.url}}" alt="voter" style="height: 4em;width: 4em;" class="rounded-circle">
-      <div class="vote-details">
-        <p class="voter-name">{{vote.rater.user.username}}</p>
-        <p class="content-vote">{{vote.content | floatformat:0}}</p>
-        <p class="design-vote">{{vote.design | floatformat:0}}</p>
-        <p class="usability-vote">{{vote.usability | floatformat:0}}</p>
-      </div>
-      {% endfor %}
       {% else %}
       <div class="text-center have-already">No ratings to display</div>
       {% endif %}
