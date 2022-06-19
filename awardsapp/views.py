@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from rest_framework import serializers
@@ -12,6 +12,9 @@ from django.contrib.auth import login, authenticate
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import ProfileSerializer,ProjectsSerializer
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+
 
 
 # Create your views here.
@@ -110,15 +113,15 @@ def project(request, project_id):
     return render(request, 'project.html', params)
 
 @login_required(login_url='login')
-def edit_profile(request, username):
-    user = User.objects.get(username=username)
+def edit_profile(request, profile_id):
+    user = User.objects.get(pk=profile_id)
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         prof_form = UpdateProfile(request.POST, request.FILES, instance=request.user.profile)
         if user_form.is_valid() and prof_form.is_valid():
             user_form.save()
             prof_form.save()
-            return redirect('profile', user.username)
+            return redirect('profile', user.profile.id)
     else:
         user_form = UpdateUserForm(instance=request.user)
         prof_form = UpdateProfile(instance=request.user.profile)
@@ -163,19 +166,19 @@ def profile(request,profile_id):
             total_ratings=sum(votes)
             average=total_ratings/len(profile_projects)
 
-        context = {
-            "profile":profile,
-            "profile_projects":profile_projects,
-            "projects_stats":projects_stats,
-            "ratings":total_ratings,
-            "average":average
-        }
-        return render(request,'profile.html', context)
+            context = {
+                "profile":profile,
+                "profile_projects":profile_projects,
+                "projects_stats":projects_stats,
+                "ratings":total_ratings,
+                "average":average
+            }
+            return render(request,'profile.html', context)
     
     except Profile.DoesNotExist:
         raise Http404()
         
-    # return render(request,'profile/profile.html',{"profile":profile,"profile_projects":profile_projects,"projects_stats":projects_stats})
+    return render(request,'profile.html',{"profile":profile,"profile_projects":profile_projects,"projects_stats":projects_stats})
 
 def search_project(request):
     if request.method == 'GET':
@@ -217,3 +220,28 @@ def add_project(request):
   else:
     form=AddProjectForm()
   return render(request,'add_project.html',{"form":form})
+
+@api_view(['GET'])
+@csrf_exempt
+def ProfilesList(request):
+  if request.method == 'GET':
+    profiles=Profile.objects.all()
+    serializers=ProfileSerializer(profiles,many=True)
+    return Response(serializers.data)
+
+@api_view(['GET'])
+@csrf_exempt
+def ProjectList(request):
+  if request.method == 'GET':
+    projects=Projects.objects.all()
+    serializers=ProjectsSerializer(projects,many=True)
+    return Response(serializers.data)
+
+def user_profile(request, username):
+    user_prof = get_object_or_404(User, username=username)
+    if request.user == user_prof:
+        return redirect('profile', username=request.user.username)
+    params = {
+        'user_prof': user_prof,
+    }
+    return render(request, 'userprofile.html', params)
