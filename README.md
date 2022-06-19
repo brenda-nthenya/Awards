@@ -13,7 +13,7 @@ TO access this project on your local files, you can clone it using these steps:
 
 1. Open your Terminal
 2. Clone the respository 
-       $ git [clone](https://github.com/brenda-nthenya/awards.git)
+       $ git [clone](https://github.com/brenda-nthenya/Awards.git)
 
 3. This will clone the respository into your local folder
 4. Pip install django
