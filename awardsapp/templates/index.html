@@ -11,13 +11,13 @@
         <div class="jumbotron"
         style="color: whitesmoke;background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7)), url('{{highest_rating.project_image.url}}');height: 25em;margin-top: 5em;">
             <div class="of-the-day-wrapper-top">
-                <label><strong>Site of the day <span>{{date}}</span></strong>
+                <label><strong>Site of the day</strong>
                 </label>
             </div>
             <div class="highest_details text-center">
                 <a href="{%url 'project' highest_rating.id%}" id="highest_name" style="text-decoration: none;"><strong>{{highest_rating.name}}<i class="fa fa-chevron-circle-right" aria-hidden="true"></i> </strong></a>
-                <div class="developer mt-5"><strong> BY <a href="{% url 'profile' highest_rating.profile.user.id %}"
-                    style="text-transform: capitalize; color: #00bdaa;">{{highest_rating.profile.user.username}}</a> FROM
+                <div class="developer mt-5"><strong> By <a href="{% url 'profile' highest_rating.profile.user.id %}"
+                    style="text-transform: capitalize; color: #00bdaa;">{{highest_rating.profile.user.username}}</a><br> From 
                     {{highest_rating.profile.location}}</strong></div>
             </div>
             <div class="voters_details">
@@ -31,7 +31,6 @@
 
     <div class="text-center divider">
         <h2><strong>All Projects</strong></h2><br>
-        <span><strong> Rate your favorite sites</strong></span>
         <strong>
           <hr>
         </strong>
@@ -60,7 +59,7 @@
                     </article>
                     <div class="card__action">
                         <div class="card__author text-center">
-                            <img src="{{project.profile.profile_pic.url}}" class="rounded-circle" alt="user">
+                            <!-- <img src="{{project.profile.profile_pic.url}}" class="rounded-circle" alt="user"> -->
                             <div class="card__author-content">
                             By <a href="{%url 'profile' project.profile.user.id %}"
                                 style="color: #00bdaa;text-transform: capitalize; color: black;text-decoration: none;">{{project.profile.user.username}}</a>
